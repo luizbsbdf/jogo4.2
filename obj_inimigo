@@ -1,0 +1,48 @@
+EVENTO CRIAR 
+
+/// @description Inserir descrição aqui
+// Você pode escrever seu código neste editor
+
+vida = irandom_range(3, 5)
+machucado = false
+alpha = 1
+dano = 0
+yy = 0
+
+
+
+
+EVENTO ETAPA
+
+/// @description Inserir descrição aqui
+// Você pode escrever seu código neste editor
+
+vida = irandom_range(3, 5)
+machucado = false
+alpha = 1
+dano = 0
+yy = 0
+
+
+
+
+EVENTO DESENHAR
+
+/// @description Inserir descrição aqui
+// Você pode escrever seu código neste editor
+
+draw_self()
+
+if(machucado == true){
+	yy += 1
+	alpha -= .05
+	draw_set_alpha(alpha)
+	draw_text(x, y-(sprite_height/2) -yy,dano)
+	draw_set_alpha(1)
+	
+	if (yy > 20) machucado = false
+}
+else { 
+	yy = 0
+	alpha = 1
+}
