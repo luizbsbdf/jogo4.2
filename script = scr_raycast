@@ -1,0 +1,24 @@
+///@desc scr_raycast(tamanho, obj_de_colisao, direcao)
+///@param tamanho_da_linha
+///@param obj_de_colisao
+///@param direcao
+function scr_raycast(){
+	var tam = argument0
+	var obj = argument1
+	var dir = argument2
+
+	for (i=0; i<tam; i++){
+		x2 = x + lengthdir_x(i, dir)
+		y2 = y + lengthdir_y(i, dir)
+
+		var outro = collision_line(x, y, x2, y2, obj, 1, 1)
+	
+		draw_line(x, y, x2, y2)
+		//Se hove colisão
+		if (outro){
+			//devolvendo a informação (id) do objeto colisão
+			return outro
+		}
+	}
+	return false
+}
