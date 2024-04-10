@@ -1,0 +1,171 @@
+EVENTO CRIAR
+/// @description Inserir descrição aqui
+// Você pode escrever seu código neste editor
+
+velh = 0;
+velv = 0;
+dir = 0;
+vel = 5;
+direcao = 0
+parado = 0;
+delayok = 1
+
+sprites[0][0] = spr_player2baixo //parado_frente
+sprites[0][1] = spr_player2cima //paradocima
+sprites[0][2] =	spr_player2dir //paradodireita
+sprites[0][3] = spr_player2esq //paradoesquerda
+
+sprites[1][0] = spr_player2baixo //movendo_frente
+sprites[1][1] = spr_player2cima //movendocima
+sprites[1][2] =	spr_player2dir //movendodireita
+sprites[1][3] = spr_player2esq //movendoesquerda
+
+movendo = 0
+lado = 0
+
+global.time_tiro=true;
+
+
+
+
+EVENTO ETAPA
+/// @description Inserir descrição aqui
+// Você pode escrever seu código neste editor
+
+var _tecla_direita = keyboard_check(ord("D"))
+var _tecla_esquerda = keyboard_check(ord("A"))
+var _tecla_cima = keyboard_check(ord("W"))
+var _tecla_baixo = keyboard_check(ord("S"))
+
+var _tecla = _tecla_direita - _tecla_esquerda != 0 || _tecla_baixo - _tecla_cima != 0;
+
+dir = point_direction(0,0, _tecla_direita - _tecla_esquerda, _tecla_baixo - _tecla_cima)
+
+velh = lengthdir_x(vel * _tecla, dir)
+velv = lengthdir_y(vel * _tecla, dir)
+
+if (velv != 0) velh = 0
+if (velh != 0) velv = 0
+
+var _colisao = instance_place(x + velh, y, obj_colisao)
+var _colisao_inimigo = instance_place(x + velh, y, obj_inimigo)
+
+//colisão parede horizontal
+if (_colisao){
+	if (velh > 0){
+		x = _colisao.bbox_left + (x - bbox_right)
+	}
+	if (velh < 0){
+		x = _colisao.bbox_right + (x - bbox_left)
+	}
+	velh =0;
+}
+
+//colisão inimigo horizontal
+if (_colisao_inimigo){
+	if (velh > 0){
+		x = _colisao_inimigo.bbox_left + (x - bbox_right)
+	}
+	if (velh < 0){
+		x = _colisao_inimigo .bbox_right + (x - bbox_left)
+	}
+	velh = 0;
+}
+ x += velh
+ 
+ _colisao = instance_place(x,y + velv, obj_colisao)
+ _colisao_inimigo = instance_place(x,y + velv, obj_inimigo)
+ 
+ //colisão parede vertical
+ if (_colisao){
+	if (velv > 0){
+		y = _colisao.bbox_top + (y - bbox_bottom)
+	}
+	if (velv < 0){
+		y = _colisao.bbox_bottom + (y - bbox_top)
+	}
+	velv = 0;
+ }
+ 
+ //colisão inimigo vertical
+  if (_colisao_inimigo){
+	if (velv > 0){
+		y = _colisao_inimigo.bbox_top + (y - bbox_bottom)
+	}
+	if (velv < 0){
+		y = _colisao_inimigo.bbox_bottom + (y - bbox_top)
+	}
+	velv = 0;
+ }
+ y += velv
+ 
+ if (velh != 0 or velv !=0) movendo = 1
+ else movendo = 0
+ 
+ if (_tecla_direita){ 
+	lado = 2
+	direcao = 0;
+	tirox = obj_player2.x+46;
+	tiroy = obj_player2.y-19
+	objtiro = obj_tiro;
+ }
+ if (_tecla_esquerda){ 
+	lado = 3
+	direcao = 180;
+	tirox = obj_player2.x-86;
+	tiroy = obj_player2.y-19;
+	objtiro = obj_tiro;
+ }
+ if (_tecla_baixo){
+	lado = 0
+	direcao = 270;
+	tirox = obj_player2.x-19;
+	tiroy = obj_player2.y+43;
+	objtiro = obj_tiro_vertical;
+ }
+ if (_tecla_cima){
+	lado = 1
+	direcao = 90;
+	tirox = obj_player2.x-19;
+	tiroy = obj_player2.y-83;
+	objtiro = obj_tiro_vertical;
+ 
+ }
+sprite_index = sprites[movendo][lado]
+ 
+if keyboard_check(ord("T")) and delayok == 1{
+	
+		
+	audio_play_sound(snd_sond_tiro, 2, false);
+	
+	var t = instance_create_layer(tirox, tiroy, layer, objtiro);
+	t.dano = 1;
+	t.speed = 7;
+	t.direction = direcao;
+	delayok = 0
+	alarm[0] = game_get_speed(gamespeed_fps)/2
+
+	
+	
+}
+
+
+
+EVENTO ALARME 0
+/// @description Inserir descrição aqui
+// Você pode escrever seu código neste editor
+
+
+delayok=1
+
+
+EVENTO DESENHAR 
+/// @description Inserir descrição aqui
+// Você pode escrever seu código neste editor
+
+
+delayok=1
+
+
+
+
