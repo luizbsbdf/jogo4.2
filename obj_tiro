@@ -1,0 +1,25 @@
+EVENTO CRIAR
+/// @description Inserir descrição aqui
+// Você pode escrever seu código neste editor
+
+dano = 0
+
+EVENTO DESENHAR 
+/// @description Inserir descrição aqui
+// Você pode escrever seu código neste editor
+draw_self()
+
+EVENTO COLISAO = obj_colisao
+
+/// @description Inserir descrição aqui
+// Você pode escrever seu código neste editor
+
+instance_destroy(self)
+
+EVENTO COLISAO = obj_inimigo
+/// @description Inserir descrição aqui
+// Você pode escrever seu código neste editor
+other.vida -= dano
+other.machucado = true
+other.dano = dano
+instance_destroy()
